@@ -56,6 +56,8 @@ GROUP BY DATE_TRUNC('week', occurred_at)
 ORDER BY DATE_TRUNC('week', occurred_at)
 ```
 ![Visual Chart](./images/engagement_by_user_cohort.png)
-> Result: Existing users such as 10+ weeks or 9 weeks are not engaging as much as new users who just signed up. The engagement rate of old users need to be improved.
+> Result: The chart above shows a significant decrease in engagement among users who signed up more than 10 weeks prior. Also, there is a negatie correlation bettwen the user engament and the user age where user engamentent is decreasing when the user age is increasing. The engagement rate of older users need to be improved.
+
+
 
 
