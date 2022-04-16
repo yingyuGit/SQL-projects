@@ -1,5 +1,5 @@
 # SQL-projects
-A repository is for my daily SQL practice.
+Recording my SQL practice codes.
 
 ## Practice 1: Investigating a Drop in User Engagement [Mode practice](https://mode.com/sql-tutorial/a-drop-in-user-engagement-answers/)
 **Problem** [A chart](https://app.mode.com/modeanalytics/reports/cbb8c291ee96/runs/7925c979521e/embed) from Yammer shows the number of engaged users each week. Yammer defines engagement as having made some type of server call by interacting with the product (shown in the data as events of type "engagement"). Any point in this chart can be interpreted as "the number of users who logged at least one engagement event during the week starting on that date." 
