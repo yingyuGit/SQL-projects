@@ -1,8 +1,8 @@
 # SQL-projects
 Recording my SQL practice codes.
 
-## Practice 1: Investigating a Drop in User Engagement [Mode practice](https://mode.com/sql-tutorial/a-drop-in-user-engagement-answers/)
-**Problem** [A chart](https://app.mode.com/modeanalytics/reports/cbb8c291ee96/runs/7925c979521e/embed) from Yammer shows the number of engaged users each week. Yammer defines engagement as having made some type of server call by interacting with the product (shown in the data as events of type "engagement"). Any point in this chart can be interpreted as "the number of users who logged at least one engagement event during the week starting on that date." 
+## Practice 1: Investigating a Drop in User Engagement [Mode practice]
+**Problem** [A chart](https://app.mode.com/modeanalytics/reports/cbb8c291ee96/runs/7925c979521e/embed) from Yammer shows the number of engaged users each week. Any point in this chart can be interpreted as "the number of users who logged at least one engagement event during the week starting on that date." 
 
 **Task** You are responsible for determining what caused the dip at the end of the chart shown above and, if appropriate, recommending solutions for the problem.
 
@@ -20,7 +20,7 @@ ORDER BY DATE_TRUNC('day', created_at)
 ```
 > Result: New signup did not decrease, the growth is still strong.
 
-#### Step 2: Investigating if there is an engagement gap bettwen new users and old users.
+#### Step 2: Investigating if there is an engagement gap bettwen new users and older users.
 ```
 WITH user_engagement_cte AS(
   SELECT
@@ -56,8 +56,9 @@ GROUP BY DATE_TRUNC('week', occurred_at)
 ORDER BY DATE_TRUNC('week', occurred_at)
 ```
 ![Visual Chart](./images/engagement_by_user_cohort.png)
-> Result: The chart above shows a significant decrease in engagement among users who signed up more than 10 weeks prior. Also, there is a negatie correlation bettwen the user engament and the user age where user engamentent is decreasing when the user age is increasing. The engagement rate of older users need to be improved.
+> Result: The chart above shows a significant decrease in engagement among users who signed up more than 10 weeks prior. Also, there is a negatie correlation bettwen the user engagement and the user age where user engamentent is decreasing when the user age is increasing. The engagement rate of older users need to be improved. 
 
+#### Step 3: Investigating changes in product or user segment
 
 
 
