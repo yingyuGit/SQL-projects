@@ -58,7 +58,21 @@ ORDER BY DATE_TRUNC('week', occurred_at)
 ![Visual Chart](./images/engagement_by_user_cohort.png)
 > Result: The chart above shows a significant decrease in engagement among users who signed up more than 10 weeks prior. Also, there is a negatie correlation bettwen the user engagement and the user age where user engamentent is decreasing when the user age is increasing. The engagement rate of older users need to be improved. 
 
-#### Step 3: Investigating changes in product or user segment
+#### Step 3: Investigating if any particular devices caused the dip in the engagement
+```
+SELECT
+  DATE_TRUNC('week', occurred_at),
+  COUNT(DISTINCT user_id) AS weekly_users,
+  COUNT(DISTINCT CASE WHEN device IN ('macbook pro','lenovo thinkpad','macbook air','dell inspiron notebook', 'asus chromebook','dell inspiron desktop','acer aspire notebook','hp pavilion desktop','acer aspire desktop','mac mini') THEN user_id ELSE NULL END) AS computer_users,
+  COUNT(DISTINCT CASE WHEN device IN ('iphone 5','samsung galaxy s4','nexus 5','iphone 5s','iphone 4s','nokia lumia 635','htc one','samsung galaxy note','amazon fire phone') THEN user_id ELSE NULL END) AS phone_users,
+  COUNT(DISTINCT CASE WHEN device IN ('ipad air','nexus 7','ipad mini','nexus 10','kindle fire','windows surface','samsumg galaxy tablet') THEN user_id ELSE NULL END) AS tablet_users
+FROM tutorial.yammer_events
+WHERE event_type = 'engagement'
+   AND event_name = 'login'
+GROUP BY DATE_TRUNC('week', occurred_at)
+```
+> Result: Smartphone and Tablet users had sudden drops from July 28th of 2014. Some features in the phone and tablet might be broken.
+
 
 
 
