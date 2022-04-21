@@ -1,15 +1,17 @@
 /*
-Covid 19 Data Exploration 
+Covid 19 Data Exploration
 Skills: Joins, CTE, Temp Table, Creating Views, Aggregate functions, Windows functions
+Data: pj1_death.csv and pj1_vaccination.csv
+Data resource: https://ourworldindata.org/covid-deaths
 */
 
 /******* EXPLORE DATA AT THE COUNTRY LEVEL *******/
 -- Total Cases vs Total Deaths
 -- Shows the likelihood of dying if a person contract covid in each country.
-SELECT 
-    location, 
+SELECT
+    location,
     date,
-    total_cases, 
+    total_cases,
     new_cases,
     total_deaths,
     population,
@@ -20,12 +22,12 @@ ORDER BY location, date
 
 
 -- Total Cases vs Population
-SELECT 
-    location, 
+SELECT
+    location,
     date,
     new_cases,
     total_deaths,
-    total_cases, 
+    total_cases,
     population,
     (total_cases / population) * 100 AS infection_per_capita
 FROM Portfolio.dbo.death
@@ -75,7 +77,7 @@ ORDER BY 6 DESC
 WITH continent_population AS (
     SELECT DISTINCT location, population
     FROM Portfolio.dbo.death
-    WHERE continent IS NULL AND location IN ('Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America') 
+    WHERE continent IS NULL AND location IN ('Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America')
 )
 SELECT
     d.continent,
@@ -84,7 +86,7 @@ SELECT
     SUM(total_deaths) AS total_deaths_cont,
     SUM(total_cases)/c.population AS highest_infection_rate,
     SUM(total_deaths)/c.population AS highest_death_rate
-FROM Portfolio.dbo.death d JOIN continent_population c 
+FROM Portfolio.dbo.death d JOIN continent_population c
     ON d.continent = c.[location]
 WHERE d.continent IS NOT NULL AND DATE = '2022-04-17'
 GROUP BY d.continent, c.population
@@ -100,7 +102,7 @@ CREATE TABLE #continent_population (
 INSERT INTO #continent_population
 SELECT DISTINCT location, population
 FROM Portfolio.dbo.death
-WHERE continent IS NULL AND location IN ('Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America') 
+WHERE continent IS NULL AND location IN ('Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America')
 
 SELECT *
 FROM #continent_population
@@ -140,7 +142,7 @@ WHERE continent IS NOT NULL
 ORDER BY 1, 2, 3
 /*
 Personal note: In theory, rolling up all numbers in the new_vaccinations column should match with the final number in the total_vaccinations column, but it does not match, because there are missing records in the new vaccinations column.
-The missing data should be handled if we want to use the new vaccinations to get the total vaccinations. 
+The missing data should be handled if we want to use the new vaccinations to get the total vaccinations.
 After checking the raw data, we can confirm that the number in the total_vaccinations column is correct as it mattched withthe sum of the total people_vaccinated and peopel_fully_vaccinated.
 */
 
@@ -148,7 +150,7 @@ After checking the raw data, we can confirm that the number in the total_vaccina
 -- Vaccinations per capita and the death rate
 SELECT
     v.continent,
-    v.location, 
+    v.location,
     d.population,
     v.gdp_per_capita,
     MAX(d.total_cases) AS total_cases,
@@ -169,8 +171,8 @@ ORDER BY 9 DESC
 CREATE VIEW basic_convid_v AS
 SELECT
     v.continent,
-    v.location, 
-    v.date, 
+    v.location,
+    v.date,
     d.population,
     v.population_density,
     d.total_cases,
@@ -191,10 +193,10 @@ WHERE v.continent IS NOT NULL
 
 -- View of Case and Death Rate Per Capita (country level)
 CREATE VIEW case_death_country_v AS
-SELECT 
-    location, 
+SELECT
+    location,
     date,
-    total_cases, 
+    total_cases,
     new_cases,
     total_deaths,
     population,
@@ -209,7 +211,7 @@ CREATE VIEW case_death_continent_v AS
 WITH continent_population AS (
     SELECT DISTINCT location, population
     FROM Portfolio.dbo.death
-    WHERE continent IS NULL AND location IN ('Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America') 
+    WHERE continent IS NULL AND location IN ('Africa', 'Asia', 'Europe', 'North America', 'Oceania', 'South America')
 )
 SELECT
     d.continent,
@@ -218,7 +220,7 @@ SELECT
     SUM(total_deaths) AS total_deaths_cont,
     SUM(total_cases)/c.population AS highest_infection_rate,
     SUM(total_deaths)/c.population AS highest_death_rate
-FROM Portfolio.dbo.death d JOIN continent_population c 
+FROM Portfolio.dbo.death d JOIN continent_population c
     ON d.continent = c.[location]
 WHERE d.continent IS NOT NULL AND DATE = '2022-04-17'
 GROUP BY d.continent, c.population
@@ -229,7 +231,7 @@ GROUP BY d.continent, c.population
 CREATE VIEW vaccination_per_capita AS
 SELECT
     v.continent,
-    v.location, 
+    v.location,
     d.population,
     v.gdp_per_capita,
     MAX(d.total_cases) AS total_cases,

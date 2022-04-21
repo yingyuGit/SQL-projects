@@ -1,5 +1,6 @@
 /*
 Cleaning Data in SQL Queries
+Data: pj2_house_data.csv
 */
 --------------------------------------------------------------------------------------------------------------------------
 -- Update Column Names
@@ -55,7 +56,7 @@ ALTER TABLE house_data
 ADD PriceClean FLOAT
 
 UPDATE house_data
--- the first convert is getting the price before the period, the sencond convert is getting the decimal points and add both. 
+-- the first convert is getting the price before the period, the sencond convert is getting the decimal points and add both.
 SET PriceClean = CONVERT(float, SUBSTRING(REPLACE(Price, ',', ''), 2, CHARINDEX('.', REPLACE(Price, ',', ''))-2)) + CONVERT(float, RIGHT(Price, 2)) / 100
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -86,7 +87,3 @@ SELECT County,
     Not_Full_Market_Price,
     VAT_Exclusive
 FROM [Portfolio].[dbo].[house_data]
-
-
-
-
